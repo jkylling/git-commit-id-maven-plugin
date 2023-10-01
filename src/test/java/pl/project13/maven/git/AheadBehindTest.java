@@ -138,22 +138,22 @@ public abstract class AheadBehindTest<T extends GitProvider> {
   }
 
   protected void createRemoteRepository() throws Exception {
-    Git.init().setBare(true).setDirectory(remoteRepository.getRoot()).call();
+    Git.init().setInitialBranch("test").setBare(true).setDirectory(remoteRepository.getRoot()).call();
   }
 
   protected void setupLocalRepository() throws Exception {
     localRepositoryGit = Git.cloneRepository().setURI(remoteRepository.getRoot().toURI().toString())
-        .setDirectory(localRepository.getRoot()).setBranch("master").call();
+        .setDirectory(localRepository.getRoot()).setBranch("test").call();
 
     StoredConfig config = localRepositoryGit.getRepository().getConfig();
-    config.setString(ConfigConstants.CONFIG_BRANCH_SECTION, "master", "remote", "origin");
-    config.setString(ConfigConstants.CONFIG_BRANCH_SECTION, "master", "merge", "refs/heads/master");
+    config.setString(ConfigConstants.CONFIG_BRANCH_SECTION, "test", "remote", "origin");
+    config.setString(ConfigConstants.CONFIG_BRANCH_SECTION, "test", "merge", "refs/heads/test");
     config.save();
   }
 
   protected void setupSecondLocalRepository() throws Exception {
     secondLocalRepositoryGit = Git.cloneRepository().setURI(remoteRepository.getRoot().toURI().toString())
-        .setDirectory(secondLocalRepository.getRoot()).setBranch("master").call();
+        .setDirectory(secondLocalRepository.getRoot()).setBranch("test").call();
   }
 
   protected void createAndPushInitialCommit() throws Exception {
